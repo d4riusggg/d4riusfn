@@ -1,266 +1,102 @@
-<html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>d4riusfn</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #22004d, #0c0020);
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
-    }
-
-    h1 {
-      margin-top: 50px;
-      font-size: 40px;
-      background: linear-gradient(90deg, #6be0ff, #ff8c2a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .subtitle {
-      color: rgba(255,255,255,0.7);
-      font-size: 14px;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    .bio {
-      font-size: 15px;
-      color: rgba(255,255,255,0.8);
-      min-height: 30px;
-      margin-bottom: 30px;
-      white-space: nowrap;
-      border-right: 2px solid #ff8c2a;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-      overflow: hidden;
-      animation: typing 5s steps(50, end), blink 0.8s step-end infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-    @keyframes blink {
-      50% { border-color: transparent; }
-    }
-
-    .profile-circle {
-      margin: 0 auto 20px auto;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #00b7ff, #ff6b00);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      color: #fff;
-      box-shadow: 0 0 35px rgba(255,140,42,0.8);
-      animation: pulse 3s infinite alternate;
-    }
-    @keyframes pulse {
-      from { box-shadow: 0 0 25px rgba(255,140,42,0.5); }
-      to { box-shadow: 0 0 45px rgba(255,140,42,1); }
-    }
-
-    .profile-circle span:first-child { font-size: 38px; }
-    .profile-circle span:last-child { font-size: 16px; margin-top: -5px; }
-
-    .username { font-size: 20px; margin-bottom: 25px; }
-
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      padding: 12px 30px;
-      border-radius: 40px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      margin: 8px;
-    }
-    .btn-blue {
-      background: #00b7ff;
-      color: #fff;
-      box-shadow: 0 0 20px rgba(0,183,255,0.6);
-    }
-    .btn-blue:hover {
-      box-shadow: 0 0 30px rgba(0,183,255,0.9);
-      transform: scale(1.05);
-    }
-    .btn-outline {
-      border: 2px solid #ff8c2a;
-      color: #ff8c2a;
-      background: transparent;
-    }
-    .btn-outline:hover {
-      background: rgba(255,140,42,0.2);
-      transform: scale(1.05);
-    }
-
-    section { margin-top: 60px; padding: 20px; }
-
-    h2 {
-      color: #ff8c2a;
-      font-size: 22px;
-      margin-bottom: 40px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .socials {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 60px;
-      flex-wrap: wrap;
-    }
-
-    .social {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.05);
-      border: 2px solid #ff8c2a;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-decoration: none;
-      color: #fff;
-      box-shadow: 0 0 25px rgba(255,140,42,0.6);
-      transition: all 0.3s ease;
-    }
-
-    .social:hover { transform: scale(1.08); box-shadow: 0 0 40px rgba(255,140,42,1); }
-
-    .social img { width: 60px; height: 60px; margin-bottom: 10px; }
-    .social span { font-weight: 600; font-size: 18px; margin-bottom: 6px; }
-    .social p { font-size: 13px; color: rgba(255,255,255,0.7); margin: 0; }
-
-    footer { margin-top: 80px; font-size: 13px; color: rgba(255,255,255,0.5); padding-bottom: 30px; }
-
-    /* Meniu */
-    .menu-btn {
-      position: fixed;
-      top: 25px;
-      right: 60px;
-      font-size: 30px;
-      cursor: pointer;
-      color: #fff;
-      z-index: 999;
-      padding: 8px 10px;
-      background: rgba(0,0,0,0.2);
-      border-radius: 8px;
-    }
-
-    .side-menu {
-      position: fixed;
-      top: 0;
-      right: -250px;
-      width: 250px;
-      height: 100%;
-      background: rgba(12,0,32,0.95);
-      box-shadow: -4px 0 10px rgba(0,0,0,0.4);
-      padding-top: 80px;
-      transition: right 0.4s ease;
-      z-index: 1000;
-    }
-
-    .side-menu.active {
-      right: 0;
-    }
-
-    .side-menu a {
-      display: block;
-      color: #fff;
-      text-decoration: none;
-      padding: 15px 30px;
-      font-size: 18px;
-      transition: 0.3s;
-    }
-
-    .side-menu a:hover {
-      background: rgba(255,140,42,0.2);
-      color: #ff8c2a;
-    }
-
-    .close-menu {
-      position: absolute;
-      top: 25px;
-      right: 25px;
-      font-size: 24px;
-      color: #ff8c2a;
-      cursor: pointer;
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- Buton meniu -->
   <div class="menu-btn" id="menuBtn">☰</div>
 
+  <!-- Meniu lateral -->
   <div class="side-menu" id="sideMenu">
     <div class="close-menu" id="closeMenu">✖</div>
-    <a href="despre.html">Despre mine</a>
+    <a href="#" id="despreLink">Despre mine</a>
   </div>
 
-  <h1>d4riusfn</h1>
-  <p class="subtitle">FORTNITE PRO PLAYER</p>
-  <p class="bio">Professional Fortnite player focused on performance, consistency, and competitive growth.</p>
+  <!-- PAGINA PRINCIPALĂ -->
+  <main id="home">
+    <h1>d4riusfn</h1>
+    <p class="subtitle">FORTNITE PRO PLAYER</p>
+    <p class="bio">Professional Fortnite player focused on performance, consistency, and competitive growth.</p>
 
-  <div class="profile-circle">
-    <span>d4</span>
-    <span>PRO</span>
-  </div>
-
-  <div class="username">d4riusfn</div>
-
-  <a href="https://fortnitetracker.com/profile/all/d4riusfn" target="_blank" class="btn btn-blue">
-    🎯 Fortnite Tracker
-  </a>
-
-  <section id="socials">
-    <h2>FOLLOW ME</h2>
-    <div class="socials">
-      <a class="social" href="https://www.tiktok.com/@d4riusfn" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok">
-        <span>TIKTOK</span>
-        <p>Follow for clips</p>
-      </a>
-
-      <a class="social" href="https://www.youtube.com/@d4rius-fn" target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-        <span>YOUTUBE</span>
-        <p>Subscribe for gameplay</p>
-      </a>
-
-      <a class="social" href="https://discord.com/users/d4riusfn." target="_blank">
-        <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord">
-        <span>DISCORD</span>
-        <p>Join community</p>
-      </a>
+    <div class="profile-circle">
+      <span>d4</span>
+      <span>PRO</span>
     </div>
-  </section>
 
-  <footer>© 2025 d4riusfn</footer>
+    <div class="username">d4riusfn</div>
+
+    <a href="https://fortnitetracker.com/profile/all/d4riusfn" target="_blank" class="btn btn-blue">
+      🎯 Fortnite Tracker
+    </a>
+
+    <section id="socials">
+      <h2>FOLLOW ME</h2>
+      <div class="socials">
+        <a class="social" href="https://www.tiktok.com/@d4riusfn" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok">
+          <span>TIKTOK</span>
+          <p>Follow for clips</p>
+        </a>
+
+        <a class="social" href="https://www.youtube.com/@d4rius-fn" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+          <span>YOUTUBE</span>
+          <p>Subscribe for gameplay</p>
+        </a>
+
+        <a class="social" href="https://discord.com/users/d4riusfn." target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord">
+          <span>DISCORD</span>
+          <p>Join community</p>
+        </a>
+      </div>
+    </section>
+
+    <footer>© 2025 d4riusfn</footer>
+  </main>
+
+  <!-- PAGINA DESPRE MINE -->
+  <section id="despre" class="hidden">
+    <div class="close-btn" id="backHome">✖</div>
+    <h1>Despre mine</h1>
+    <p>
+      Mă numesc <strong>Darius</strong>, cunoscut online ca <strong>d4riusfn</strong>.<br><br>
+      Am început să mă apuc de gaming în 2020, iar de atunci pasiunea mea pentru Fortnite a crescut constant.<br>
+      Îmi place să mă concentrez pe competiții, să mă dezvolt și să dau tot ce pot la fiecare meci.<br>
+      Prin conținutul pe care îl postez și comunitatea pe care o construiesc, vreau să inspir alți jucători să nu renunțe,<br>
+      să creadă în ei și să-și urmeze visul, indiferent de obstacole.<br><br>
+      Gamingul pentru mine nu este doar distracție, ci o călătorie spre performanță, disciplină și evoluție.
+    </p>
+  </section>
 
   <script>
     const menuBtn = document.getElementById("menuBtn");
     const sideMenu = document.getElementById("sideMenu");
     const closeMenu = document.getElementById("closeMenu");
+    const despreLink = document.getElementById("despreLink");
+    const home = document.getElementById("home");
+    const despre = document.getElementById("despre");
+    const backHome = document.getElementById("backHome");
 
     menuBtn.onclick = () => sideMenu.classList.add("active");
     closeMenu.onclick = () => sideMenu.classList.remove("active");
+
+    despreLink.onclick = () => {
+      home.classList.add("hidden");
+      despre.classList.remove("hidden");
+      sideMenu.classList.remove("active");
+    };
+
+    backHome.onclick = () => {
+      despre.classList.add("hidden");
+      home.classList.remove("hidden");
+    };
   </script>
 
 </body>
