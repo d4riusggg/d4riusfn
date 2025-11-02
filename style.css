@@ -232,3 +232,14 @@ footer {
   .username { font-size: 18px; }
   section { margin-top: 40px; }
 }
+.top-left-logo {
+  position: fixed;   /* fixat pe ecran */
+  top: 10px;         /* la 10px de sus */
+  left: 10px;        /* la 10px de stânga */
+  z-index: 1000;     /* deasupra tuturor celorlalte elemente */
+}
+
+.top-left-logo img {
+  height: 50px;      /* înălțimea logo-ului */
+  width: auto;       /* păstrează proporțiile */
+}
