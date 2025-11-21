@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>d4riusfn</title>
-  <link href="img/logo nou d4riusfn.jpg" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Favicon updated to uploaded file -->
+  <link rel="shortcut icon" type="image/x-icon" href="/mnt/data/4052f176-8357-4c48-8502-71f2c376584e.png">
 </head>
 <body>
-  <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="img/logo nou d4riusfn.jpg">
 
   <!-- Buton meniu -->
   <div class="menu-btn" id="menuBtn">☰</div>
@@ -17,7 +18,10 @@
   <!-- Meniu lateral -->
   <div class="side-menu" id="sideMenu">
     <div class="close-menu" id="closeMenu">✖</div>
+
+    <a href="#" id="homeLink">Acasă</a>
     <a href="#" id="despreLink">Despre mine</a>
+    <a href="#" id="blogLink">Blog & News</a>
   </div>
 
   <!-- PAGINA PRINCIPALĂ -->
@@ -32,8 +36,6 @@
     </div>
 
     <div class="username">d4riusfn</div>
-
-    
 
     <section id="socials">
       <h2>FOLLOW ME</h2>
@@ -58,12 +60,10 @@
       </div>
     </section>
 
-    <footer>© 2025 d4riusfn</footer>
   </main>
 
   <!-- PAGINA DESPRE MINE -->
   <section id="despre" class="hidden">
-    <div class="close-btn" id="backHome">✖</div>
     <h1>Despre mine</h1>
     <p>
       Mă numesc <strong>Darius</strong>, cunoscut online ca <strong>d4riusfn</strong>.<br><br>
@@ -75,35 +75,112 @@
     </p>
   </section>
 
-  <script>
-    const menuBtn = document.getElementById("menuBtn");
-    const sideMenu = document.getElementById("sideMenu");
-    const closeMenu = document.getElementById("closeMenu");
-    const despreLink = document.getElementById("despreLink");
-    const home = document.getElementById("home");
-    const despre = document.getElementById("despre");
-    const backHome = document.getElementById("backHome");
+  <!-- PAGINA BLOG -->
+  <section id="blog" class="hidden">
+    <h1>Blog & News</h1>
+    <p>
+      Fortnite este un joc în continuă evoluție, iar fiecare update schimbă modul în care trebuie să joci competitiv.
+      Pentru un player dedicat, adaptarea rapidă este cheia. Meta-ul se schimbă constant: arme noi, mobilități diferite,
+      schimbări la hărți și rotații care îți pot da peste cap stilul de joc dacă nu ești pregătit.<br><br>
 
-    menuBtn.onclick = () => sideMenu.classList.add("active");
-    closeMenu.onclick = () => sideMenu.classList.remove("active");
+      <strong>Antrenamente și disciplină</strong><br>
+      Pentru mine, rutina începe cu warm-up în creative: tracking, edituri, piece control. Apoi intru în realistic fights,
+      iar mai târziu trec la scrims pentru presiune reală. Fiecare duel, fiecare rotație și fiecare decizie mă ajută
+      să devin mai consistent și mai calm în momentele critice.<br><br>
 
-    despreLink.onclick = () => {
-      home.classList.add("hidden");
-      despre.classList.remove("hidden");
-      sideMenu.classList.remove("active");
-    };
+      <strong>Concentrare în turnee</strong><br>
+      Competițiile sunt adevăratul test. Nu este vorba doar despre mecanici — ci despre mentalitate, poziționare și timing.
+      Într-un turneu, o singură decizie proastă te poate costa tot meciul. Tocmai de aceea rămân focusat, calculat
+      și îmi analizez fiecare play pentru a îmbunătăți constant totul.<br><br>
 
-    backHome.onclick = () => {
-      despre.classList.add("hidden");
-      home.classList.remove("hidden");
-    };
-  </script>
+      <strong>Viziunea mea</strong><br>
+      Scopul meu este să continui să cresc, să particip la turnee tot mai mari și să dezvolt o comunitate puternică.
+      Pentru mine, Fortnite nu e doar un joc — este o competiție continuă și un drum spre performanță.
+    </p>
+  </section>
 
-  <!-- LOGO SUS STÂNGA (PĂTRAT) -->
+  <!-- FOOTER CU LOGO-STÂNGA -->
+  <footer class="main-footer" style="
+    background:#190046;
+    padding:25px 20px;
+    margin-top:60px;
+    width:90%;
+    max-width:900px;
+    margin-left:auto;
+    margin-right:auto;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(0,0,0,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  ">
+
+    <img src="./img/logo nou d4riusfn.jpg" alt="Logo footer"
+         style="height:70px; width:70px; object-fit:cover; border-radius:10px;">
+
+    <div style="text-align:center; flex:1;">
+      <h2>d4riusfn</h2>
+      <p>FORTNITE PRO PLAYER • COMPETITIVE GRINDER</p>
+
+      <div style="margin-top:10px; display:flex; justify-content:center; gap:20px;">
+        <a href="https://www.tiktok.com/@d4riusfn" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" style="height:26px;">
+        </a>
+        <a href="https://www.youtube.com/@d4rius-fn" target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" style="height:26px;">
+        </a>
+        <a href="https://discord.com/users/d4riusfn." target="_blank">
+          <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" style="height:26px;">
+        </a>
+      </div>
+
+      <p style="margin-top:10px; opacity:0.8;">© 2025 d4riusfn — All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <!-- LOGO SUS ÎN STÂNGA (RESTAURAT EXACT CUM ERA) -->
   <header style="position: fixed; top: 15px; left: 15px; z-index: 1000;">
     <img src="./img/logo nou d4riusfn.jpg" alt="Logo d4riusfn" 
          style="height: 65px; width: 65px; object-fit: cover; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
   </header>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sideMenu = document.getElementById("sideMenu");
+    const closeMenu = document.getElementById("closeMenu");
+
+    const home = document.getElementById("home");
+    const despre = document.getElementById("despre");
+    const blog = document.getElementById("blog");
+
+    const homeLink = document.getElementById("homeLink");
+    const despreLink = document.getElementById("despreLink");
+    const blogLink = document.getElementById("blogLink");
+
+    menuBtn.onclick = () => sideMenu.classList.add("active");
+    closeMenu.onclick = () => sideMenu.classList.remove("active");
+
+    homeLink.onclick = () => {
+      home.classList.remove("hidden");
+      despre.classList.add("hidden");
+      blog.classList.add("hidden");
+      sideMenu.classList.remove("active");
+    };
+
+    despreLink.onclick = () => {
+      home.classList.add("hidden");
+      blog.classList.add("hidden");
+      despre.classList.remove("hidden");
+      sideMenu.classList.remove("active");
+    };
+
+    blogLink.onclick = () => {
+      home.classList.add("hidden");
+      despre.classList.add("hidden");
+      blog.classList.remove("hidden");
+      sideMenu.classList.remove("active");
+    };
+  </script>
 
 </body>
 </html>
