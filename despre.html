@@ -3,23 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- TITLU PĂSTRAT -->
   <title>d4riusfn</title>
-
-  <!-- FONT + CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
-  <!-- FAVICON PĂSTRAT -->
   <link rel="shortcut icon" type="image/x-icon" href="img/logo nou d4riusfn.jpg">
 </head>
 <body>
 
-  <!-- Buton meniu -->
   <div class="menu-btn" id="menuBtn">☰</div>
-
-  <!-- Meniu lateral -->
   <div class="side-menu" id="sideMenu">
     <div class="close-menu" id="closeMenu">✖</div>
     <a href="index.html">Acasă</a>
@@ -27,35 +18,25 @@
     <a href="blog.html">Blog & News</a>
   </div>
 
-  <!-- LOGO SUS STÂNGA IDENTIC -->
   <header style="text-align:left; padding:1cm 0 0 1cm;">
     <img src="./img/logo nou d4riusfn.jpg" alt="Logo d4riusfn" 
          style="height:65px; width:65px; object-fit:cover; box-shadow:0 0 10px rgba(0,0,0,0.3);">
   </header>
 
-  <!-- CONȚINUT PAGINA DESPRE MINE -->
   <main>
-
     <h1>DESPRE MINE</h1>
-
-    <!-- SPAȚIU MAI MIC între titlu și text -->
     <div style="height:12px;"></div>
-
     <p class="bio" style="max-width:700px; margin:auto; white-space:pre-line; line-height:1.5;">
-
-<span style="font-weight:700;">Mă numesc Darius</span>, cunoscut online ca <span style="font-weight:700;">d4riusfn</span>.
-
-
-Am început să mă apuc de gaming în 2020, iar de atunci pasiunea mea pentru Fortnite a crescut constant.
-Îmi place să mă concentrez pe competiții, să mă dezvolt și să dau tot ce pot la fiecare meci.
-Prin conținutul pe care îl postez și comunitatea pe care o construiesc, vreau să inspir alți jucători să nu renunțe,
-să creadă în ei și să-și urmeze visul, indiferent de obstacole.
-Gamingul pentru mine nu este doar distracție, ci o călătorie spre performanță, disciplină și evoluție.
+      <span style="font-weight:700;">Mă numesc Darius</span>, cunoscut online ca <span style="font-weight:700;">d4riusfn</span>.
+      
+      Am început să mă apuc de gaming în 2020, iar de atunci pasiunea mea pentru Fortnite a crescut constant.
+      Îmi place să mă concentrez pe competiții, să mă dezvolt și să dau tot ce pot la fiecare meci.
+      Prin conținutul pe care îl postez și comunitatea pe care o construiesc, vreau să inspir alți jucători să nu renunțe,
+      să creadă în ei și să-și urmeze visul, indiferent de obstacole.
+      Gamingul pentru mine nu este doar distracție, ci o călătorie spre performanță, disciplină și evoluție.
     </p>
-
   </main>
 
-  <!-- FOOTER IDENTIC CA LA INDEX -->
   <footer class="main-footer" style="
     background:#190046;
     padding:30px;
@@ -76,7 +57,6 @@ Gamingul pentru mine nu este doar distracție, ci o călătorie spre performanț
       <div style="text-align:left;">
         <h2 style="margin:0;">d4riusfn</h2>
         <p style="margin:5px 0;">FORTNITE PRO PLAYER • COMPETITIVE GRINDER</p>
-
         <div style="margin-top:5px; display:flex; gap:15px;">
           <a href="https://www.tiktok.com/@d4riusfn" target="_blank">
             <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" style="height:26px;">
@@ -88,14 +68,16 @@ Gamingul pentru mine nu este doar distracție, ci o călătorie spre performanț
             <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" style="height:26px;">
           </a>
         </div>
-
         <p style="margin-top:8px; opacity:0.8;">© 2025 d4riusfn — All Rights Reserved</p>
       </div>
     </div>
   </footer>
 
-  <!-- JS MENIU -->
   <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sideMenu = document.getElementById("sideMenu");
+    const closeMenu = document.getElementById("closeMenu");
+
     menuBtn.onclick = () => sideMenu.classList.add("active");
     closeMenu.onclick = () => sideMenu.classList.remove("active");
   </script>

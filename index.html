@@ -64,7 +64,7 @@
     </section>
   </main>
 
-  <!-- FOOTER EXACT CA LA TINE -->
+  <!-- FOOTER -->
   <footer class="main-footer" style="
     background:#190046;
     padding:30px;
@@ -102,6 +102,10 @@
   </footer>
 
   <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sideMenu = document.getElementById("sideMenu");
+    const closeMenu = document.getElementById("closeMenu");
+
     menuBtn.onclick = () => sideMenu.classList.add("active");
     closeMenu.onclick = () => sideMenu.classList.remove("active");
   </script>
