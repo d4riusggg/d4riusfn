@@ -1,287 +1,265 @@
-/* ===================== GLOBAL ===================== */
+/* =========================================================
+====================== AAA GAMING UI =======================
+========================================================= */
+
+/* ------------------ GLOBAL ------------------ */
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top, #0c1026, #1a1f3e); /* albastru-violet inchis */
-  color: #fff;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(160deg, #0a0b0d 0%, #0e1014 40%, #15171c 100%);
+  color: #f1f1f1;
   text-align: center;
   overflow-x: hidden;
-  position: relative;
-  min-height: 100vh;
-  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  animation: fadeIn 0.9s ease both;
 }
 
-/* ===================== TITLU MODERN ===================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* light noise overlay */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: url("https://i.imgur.com/8kY4Fsg.png") repeat;
+  opacity: 0.03;
+  z-index: -1;
+}
+
+/* ------------------ TITLU ------------------ */
 h1 {
-  margin-top: 60px;
-  font-size: 46px;
-  font-weight: 700;
-  background: linear-gradient(90deg, #00ffff, #66ccff, #99ccff);
-  background-clip: text;
+  margin-top: 130px;
+  font-size: 72px;
+  font-weight: 900;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffffff, #9fd4ff, #b1d8ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-  animation: fadeInDown 0.8s ease forwards;
-  text-shadow: 0 4px 12px rgba(0,255,255,0.25);
+  filter: drop-shadow(0 5px 25px rgba(120,180,255,0.3));
+  animation: titleGlow 4s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0% { filter: drop-shadow(0 3px 15px rgba(120,180,255,0.25)); }
+  50% { filter: drop-shadow(0 8px 35px rgba(120,180,255,0.45)); }
+  100% { filter: drop-shadow(0 3px 15px rgba(120,180,255,0.25)); }
 }
 
 .subtitle {
-  color: rgba(255,255,255,0.75);
-  font-size: 14px;
-  letter-spacing: 3px;
-  margin-bottom: 12px;
+  font-size: 20px;
+  opacity: 0.55;
+  margin-top: -12px;
 }
 
-/* ===================== BIO ===================== */
+/* ------------------ BIO ------------------ */
 .bio {
-  font-size: 16px;
-  color: rgba(255,255,255,0.85);
-  margin: 0 auto 40px auto;
-  max-width: 600px;
-  line-height: 1.6;
-  animation: fadeIn 1s ease forwards;
+  max-width: 780px;
+  margin: 45px auto;
+  font-size: 20px;
+  line-height: 1.8;
+  opacity: 0.85;
+  transition: 0.3s;
 }
 .bio:hover {
-  color: #66ccff;
+  opacity: 1;
+  transform: translateY(-4px);
 }
 
-/* ===================== PROFILE CIRCLE ===================== */
+/* ------------------ PROFILE CIRCLE – GAMING STYLE ------------------ */
 .profile-circle {
-  margin: 10px auto 30px auto;
-  width: 160px;
-  height: 160px;
+  width: 240px;
+  height: 240px;
+  margin: 50px auto;
   border-radius: 50%;
-  backdrop-filter: blur(18px);
-  background: rgba(255,255,255,0.05);
-  border: 2px solid rgba(255,255,255,0.1);
+  background: radial-gradient(circle, #1c1f26, #0d0f13);
+  border: 3px solid rgba(120,180,255,0.35);
+  box-shadow:
+    0 0 30px rgba(120,180,255,0.25),
+    inset 0 0 20px rgba(255,255,255,0.03);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  color: #fff;
-  box-shadow: 0 10px 40px rgba(0,204,255,0.5), 0 0 60px rgba(102,204,255,0.3);
-  animation: float 4s ease-in-out infinite alternate;
+  transition: 0.35s ease;
 }
 .profile-circle:hover {
   transform: scale(1.08);
-  box-shadow: 0 15px 60px rgba(0,204,255,0.7), 0 0 90px rgba(102,204,255,0.5);
+  border-color: rgba(140,200,255,0.55);
+  box-shadow:
+    0 0 60px rgba(120,180,255,0.45),
+    inset 0 0 40px rgba(255,255,255,0.07);
 }
-.profile-circle span:first-child { font-size: 40px; }
-.profile-circle span:last-child { font-size: 17px; margin-top: -5px; }
+.profile-circle span:first-child {
+  font-size: 56px;
+  font-weight: 800;
+  color: #cbe5ff;
+}
+.profile-circle span:last-child {
+  font-size: 20px;
+  opacity: 0.7;
+}
 
+/* ------------------ USERNAME ------------------ */
 .username {
-  font-size: 22px;
-  margin-bottom: 25px;
-  font-weight: 600;
-  opacity: 0.9;
-  letter-spacing: 0.5px;
-  text-shadow: 0 0 8px #66ccff, 0 0 16px #00ffff;
-}
-
-/* ===================== BUTTONS ===================== */
-.btn {
-  display: inline-block;
-  text-decoration: none;
-  padding: 14px 34px;
-  border-radius: 40px;
-  font-size: 16px;
-  font-weight: 600;
-  margin: 8px;
-  transition: 0.4s ease;
-  position: relative;
-  overflow: hidden;
-}
-.btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255,255,255,0.15);
-  transition: 0.4s;
-  border-radius: 40px;
-}
-.btn:hover::after { left: 0; }
-
-.btn-blue {
-  background: linear-gradient(135deg, #00ffff, #66ccff, #99ccff);
-  color: #fff;
-  box-shadow: 0 0 18px #00ffff, 0 0 30px #66ccff;
-}
-.btn-blue:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 0 35px #00ffff, 0 0 60px #66ccff;
-}
-
-/* ===================== SECTIONS ===================== */
-section {
-  margin-top: 70px;
-  padding: 20px;
-}
-
-h2 {
-  color: #00ffff;
-  font-size: 26px;
-  margin-bottom: 45px;
-  text-transform: uppercase;
+  margin-top: 18px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
   letter-spacing: 1px;
-  text-shadow: 0 0 8px #00ffff, 0 0 16px #66ccff;
-  position: relative;
+}
+
+/* ------------------ BUTTONS – AAA GAMING ------------------ */
+.btn {
+  padding: 16px 48px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  display: inline-block;
+  margin: 14px;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, #2f6cff, #4aa8ff);
+  box-shadow: 0 8px 30px rgba(70,130,255,0.25);
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 45px rgba(70,130,255,0.4);
+}
+
+/* ------------------ SECTION TITLES ------------------ */
+h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-top: 110px;
+  color: #e7e7e7;
 }
 h2::after {
-  content: '';
-  width: 60px;
-  height: 3px;
-  background: #66ccff;
+  content: "";
+  width: 90px;
+  height: 4px;
+  margin: 16px auto 0;
   display: block;
-  margin: 10px auto 0 auto;
-  border-radius: 2px;
+  background: linear-gradient(90deg, #73b6ff, #c0e2ff);
+  border-radius: 3px;
 }
 
-/* ===================== SOCIAL CARDS ===================== */
+/* ------------------ SOCIAL CARDS – GAMING UI ------------------ */
 .socials {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 45px;
   flex-wrap: wrap;
+  margin-top: 60px;
 }
 .social {
-  width: 180px;
-  height: 180px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 0 20px #00ffff, 0 0 40px #66ccff;
+  width: 220px;
+  height: 220px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 10px 35px rgba(0,0,0,0.45);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
-  color: #fff;
-  transition: 0.35s ease, transform 0.4s, box-shadow 0.4s;
-  position: relative;
-  overflow: hidden;
-}
-.social::before {
-  content: '';
-  position: absolute;
-  width: 120%;
-  height: 120%;
-  background: linear-gradient(120deg, #00ffff, #66ccff, #99ccff);
-  transform: rotate(45deg) translateX(-100%);
-  transition: 0.5s;
-  z-index: 0;
-}
-.social:hover::before { transform: rotate(45deg) translateX(0); }
-.social img { width: 52px; margin-bottom: 12px; z-index: 1; filter: drop-shadow(0 0 8px #00ffff); }
-.social span, .social p { z-index: 1; }
-.social span { font-weight: 600; font-size: 18px; margin-bottom: 6px; }
-.social p { font-size: 13px; color: rgba(255,255,255,0.7); margin: 0; }
-.social:hover {
-  transform: translateY(-8px) scale(1.07);
-  box-shadow: 0 0 35px #00ffff, 0 0 70px #66ccff;
-}
-
-/* ===================== FOOTER ===================== */
-footer {
-  margin-top: 90px;
-  font-size: 13px;
-  color: #fff;
-  padding: 20px 0;
-  background: rgba(10,18,38,0.85);
-  box-shadow: inset 0 1px 10px rgba(0,255,255,0.1);
-  letter-spacing: 0.5px;
-  text-shadow: 0 0 4px #66ccff;
-}
-
-/* ===================== MENU BUTTON ===================== */
-.menu-btn {
-  position: fixed;
-  top: 22px;
-  right: 22px;
-  font-size: 28px;
-  cursor: pointer;
-  color: #fff;
-  z-index: 999;
-  padding: 10px;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 10px;
   transition: 0.3s ease;
-}
-.menu-btn:hover {
-  transform: scale(1.1);
-  background: rgba(255,255,255,0.2);
-  text-shadow: 0 0 8px #00ffff;
-}
-
-/* ===================== SIDE MENU ===================== */
-.side-menu {
-  position: fixed;
-  top: 0;
-  right: -250px;
-  width: 250px;
-  height: 100%;
-  background: rgba(10,18,38,0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: -2px 0 15px rgba(0,255,255,0.3);
-  transition: right 0.3s ease;
-  z-index: 998;
-  display: flex;
-  flex-direction: column;
-  padding-top: 60px;
-}
-.side-menu a {
-  color: #fff;
   text-decoration: none;
-  font-size: 18px;
-  padding: 15px 25px;
+  color: #fff;
+}
+.social img {
+  width: 64px;
+  opacity: 0.9;
   transition: 0.3s;
 }
-.side-menu a:hover {
-  background: rgba(0,255,255,0.1);
-  color: #66ccff;
-  border-radius: 8px;
+.social:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 18px 55px rgba(120,180,255,0.35);
+  border-color: rgba(120,180,255,0.4);
+}
+.social:hover img {
+  opacity: 1;
+}
+
+/* ------------------ MENU BUTTON ------------------ */
+.menu-btn {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  font-size: 30px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  color: #f1f1f1;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+  z-index: 1000;
+}
+.menu-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* ------------------ SIDE MENU ------------------ */
+.side-menu {
+  position: fixed;
+  right: -300px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background: #0e1116;
+  box-shadow: -6px 0 30px rgba(0,0,0,0.5);
+  padding-top: 110px;
+  display: flex;
+  flex-direction: column;
+  transition: 0.35s ease;
+  z-index: 999;
 }
 .side-menu.active {
   right: 0;
 }
-
-/* ===================== ANIMATIONS ===================== */
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0); }
+.side-menu a {
+  color: #e5e5e5;
+  padding: 22px 45px;
+  font-size: 20px;
+  text-decoration: none;
+  transition: 0.25s;
 }
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInDown {
-  0% { opacity: 0; transform: translateY(-25px); }
-  100% { opacity: 1; transform: translateY(0); }
+.side-menu a:hover {
+  background: rgba(255,255,255,0.05);
+  padding-left: 65px;
 }
 
-/* ===================== RESPONSIVE ===================== */
+/* ------------------ FOOTER ------------------ */
+footer {
+  margin-top: 120px;
+  padding: 35px 0;
+  background: #0b0e14; /* CULOARE FOOTER SCHIMBATA */
+  color: #b9b9b9;
+  font-size: 15px;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* ------------------ RESPONSIVE ------------------ */
 @media (max-width: 768px) {
-  h1 { font-size: 32px; margin-top: 40px; }
-  .profile-circle { width: 130px; height: 130px; }
-  .bio { font-size: 14px; max-width: 95%; }
-  .social { width: 150px; height: 150px; }
-  .social img { width: 40px; }
-  .menu-btn { right: 15px; top: 15px; }
-  .side-menu { width: 220px; }
-  .side-menu a { font-size: 16px; padding: 12px 20px; }
+  h1 { font-size: 54px; }
+  .profile-circle { width: 190px; height: 190px; }
+  .social { width: 180px; height: 180px; }
 }
 
 @media (max-width: 480px) {
-  .btn { font-size: 14px; padding: 10px 25px; }
-  .username { font-size: 18px; }
-  section { margin-top: 40px; }
-  h2 { font-size: 22px; }
-  .social { width: 130px; height: 130px; }
-  .social img { width: 32px; }
+  h1 { font-size: 38px; }
+  .btn { padding: 14px 34px; font-size: 16px; }
+  .social { width: 150px; height: 150px; }
 }
