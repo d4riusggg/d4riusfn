@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Admin Brain PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--text:#111}
+body.dark{--bg:#0f172a;--card:#1e293b;--text:#f8fafc}
+body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text)}
+.container{max-width:900px;margin:auto;padding:20px}
+.card{background:var(--card);border-radius:12px;padding:20px;margin-bottom:20px;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.hidden{display:none}
+input,textarea,select,button{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc}
+button{background:#2563eb;color:white;border:none;cursor:pointer}
+.red{background:#dc2626}
+.gray{background:#6b7280}
+.header{display:flex;justify-content:space-between;align-items:center}
+.task{display:flex;gap:10px;margin:6px 0}
+.task.done span{text-decoration:line-through;color:#777}
+.log{font-size:13px;opacity:.85}
+</style>
+</head>
+
+<body>
+
+<div class="container card" id="loginBox">
+  <h2>🔐 Admin Access</h2>
+  <input type="password" id="pass" placeholder="Parolă">
+  <button onclick="login()">Enter</button>
+</div>
+
+<div class="container hidden" id="adminBox">
+
+<div class="card header">
+  <h1>🧠 Admin Brain PRO</h1>
+  <button class="red" onclick="logout()">Logout</button>
+</div>
+
+<div class="card">
+  <button onclick="toggleDark()">🌙 Dark Mode</button>
+</div>
+
+<div class="card">
+  <h3>📡 Site Status</h3>
+  <select id="status" onchange="saveStatus()">
+    <option>ONLINE</option>
+    <option>OFFLINE</option>
+    <option>DEVELOPMENT</option>
+  </select>
+</div>
+
+<div class="card">
+  <h3>📝 Notes</h3>
+  <textarea id="notes" rows="4"></textarea>
+  <button onclick="saveNotes()">Save</button>
+</div>
+
+<div class="card">
+  <h3>✅ Tasks</h3>
+  <input id="taskInput" placeholder="Task nou">
+  <button onclick="addTask()">Add</button>
+  <div id="tasks"></div>
+</div>
+
+<div class="card">
+  <h3>🔐 Security</h3>
+  <input id="oldPass" type="password" placeholder="Parola curentă">
+  <input id="newPass" type="password" placeholder="Parola nouă">
+  <button onclick="changePassword()">Change Password</button>
+</div>
+
+<div class="card">
+  <h3>🧾 Activity Log</h3>
+  <div id="logs"></div>
+</div>
+
+</div>
+
+<script>
+const DEFAULT_PASS="d4riusfn";
+let PASSWORD=localStorage.getItem("admin_pass")||DEFAULT_PASS;
+
+const loginBox=document.getElementById("loginBox");
+const adminBox=document.getElementById("adminBox");
+const notes=document.getElementById("notes");
+const statusSel=document.getElementById("status");
+const tasksDiv=document.getElementById("tasks");
+const logsDiv=document.getElementById("logs");
+
+let tasks=JSON.parse(localStorage.getItem("tasks"))||[];
+let logs=JSON.parse(localStorage.getItem("logs"))||[];
+
+function logEvent(txt){
+  logs.unshift(new Date().toLocaleString()+" - "+txt);
+  localStorage.setItem("logs",JSON.stringify(logs));
+  renderLogs();
+}
+
+function login(){
+  if(pass.value===PASSWORD){
+    loginBox.style.display="none";
+    adminBox.classList.remove("hidden");
+    logEvent("Login");
+    load();
+  } else alert("Parolă greșită");
+}
+
+function logout(){
+  logEvent("Logout");
+  location.reload();
+}
+
+function saveNotes(){
+  localStorage.setItem("notes",notes.value);
+  logEvent("Notes saved");
+}
+
+function saveStatus(){
+  localStorage.setItem("status",statusSel.value);
+  logEvent("Status changed");
+}
+
+function addTask(){
+  if(!taskInput.value.trim())return;
+  tasks.push({text:taskInput.value,done:false});
+  taskInput.value="";
+  saveTasks();
+  logEvent("Task added");
+}
+
+function toggleTask(i){
+  tasks[i].done=!tasks[i].done;
+  saveTasks();
+}
+
+function deleteTask(i){
+  tasks.splice(i,1);
+  saveTasks();
+  logEvent("Task deleted");
+}
+
+function saveTasks(){
+  localStorage.setItem("tasks",JSON.stringify(tasks));
+  renderTasks();
+}
+
+function renderTasks(){
+  tasksDiv.innerHTML="";
+  tasks.forEach((t,i)=>{
+    const d=document.createElement("div");
+    d.className="task"+(t.done?" done":"");
+    d.innerHTML=`
+      <input type="checkbox" ${t.done?"checked":""} onclick="toggleTask(${i})">
+      <span style="flex:1">${t.text}</span>
+      <button class="gray" onclick="deleteTask(${i})">✖</button>`;
+    tasksDiv.appendChild(d);
+  });
+}
+
+function changePassword(){
+  if(oldPass.value!==PASSWORD)return alert("Parola curentă greșită");
+  if(newPass.value.length<4)return alert("Minim 4 caractere");
+  PASSWORD=newPass.value;
+  localStorage.setItem("admin_pass",PASSWORD);
+  oldPass.value=""; newPass.value="";
+  logEvent("Password changed");
+  alert("Parola schimbată");
+}
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("dark",document.body.classList.contains("dark"));
+}
+
+function renderLogs(){
+  logsDiv.innerHTML="";
+  logs.slice(0,20).forEach(l=>{
+    logsDiv.innerHTML+=`<div class="log">${l}</div>`;
+  });
+}
+
+function load(){
+  notes.value=localStorage.getItem("notes")||"";
+  statusSel.value=localStorage.getItem("status")||"ONLINE";
+  if(localStorage.getItem("dark")==="true")document.body.classList.add("dark");
+  renderTasks();
+  renderLogs();
+}
+</script>
+
+</body>
+</html>

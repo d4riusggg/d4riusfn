@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="site-title">Setări Avansate</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #e7ecf3;
+    --card: rgba(255,255,255,0.65);
+    --text: #1a1a1a;
+    --accent: #4c84ff;
+    --radius: 16px;
+    --blur: 20px;
+}
+.dark { --bg: #0f1116; --card: rgba(22,24,29,0.8); --text: #eaeaea; --accent: #4f7fff; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:"Inter",sans-serif; height:100vh; overflow:hidden; transition:.2s ease-in-out; }
+#loginScreen { position:fixed; inset:0; backdrop-filter:blur(14px); display:flex; align-items:center; justify-content:center; }
+.login-box { background:var(--card); padding:40px; width:360px; border-radius:var(--radius); box-shadow:0 20px 60px #0004; animation:fadeIn .4s ease; }
+.login-box input, .login-box button { width:100%; padding:14px; border-radius:12px; border:none; margin-top:12px; font-size:15px; }
+.login-box button { background:var(--accent); color:white; font-weight:600; cursor:pointer; transition:.2s; }
+.login-box button:hover { filter: brightness(1.15); }
+.login-box .error { color:#ff3c3c; margin-top:6px; }
+@keyframes fadeIn { from {opacity:0; transform:translateY(15px);} to {opacity:1; transform:translateY(0);} }
+.wrapper { display:flex; height:100vh; overflow:hidden; }
+.sidebar { width:260px; background:var(--card); backdrop-filter:blur(var(--blur)); padding:20px; border-radius:0 var(--radius) var(--radius) 0; box-shadow:6px 0 25px #0003; display:flex; flex-direction:column; }
+.sidebar h3 { margin-bottom:15px; font-weight:700; font-size:22px; }
+.nav-item { padding:12px 15px; border-radius:10px; font-size:15px; cursor:pointer; margin-bottom:8px; display:flex; gap:12px; align-items:center; transition:.2s; }
+.nav-item i { width:18px; text-align:center; }
+.nav-item:hover, .nav-item.active { background:var(--accent); color:white; }
+.header { height:70px; background:var(--card); backdrop-filter:blur(var(--blur)); display:flex; align-items:center; justify-content:space-between; padding:0 25px; box-shadow:0 4px 20px #0002; }
+.header input { padding:10px 14px; font-size:14px; border-radius:10px; border:none; width:260px; background:#fff3; color:var(--text); }
+.content { flex:1; overflow-y:auto; padding:30px; }
+.section { display:none; animation:fadeIn .3s ease; }
+.section.active { display:block; }
+h2 { margin-top:0; }
+.setting-row { display:flex; justify-content:space-between; margin:18px 0; align-items:center; }
+.toggle { position:relative; width:50px; height:26px; }
+.toggle input { display:none; }
+.slider { position:absolute; inset:0; background:#888; border-radius:20px; transition:.3s; }
+.slider:before { content:""; position:absolute; width:20px; height:20px; background:white; border-radius:50%; top:3px; left:3px; transition:.3s; }
+input:checked + .slider { background:var(--accent); }
+input:checked + .slider:before { transform:translateX(24px); }
+.btn { padding:12px 18px; background:var(--accent); color:white; border:none; border-radius:10px; cursor:pointer; font-weight:600; margin:4px 0; }
+.btn:hover { filter: brightness(1.15); }
+.danger { background:#ff4c4c; }
+.card { background:var(--card); padding:20px; border-radius:var(--radius); box-shadow:0 10px 25px #0002; margin:20px 0; }
+table { width:100%; border-collapse:collapse; margin-top:10px; }
+table th, table td { border:1px solid #ccc; padding:8px; text-align:left; }
+table tbody tr:nth-child(even) { background:#ffffff33; }
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-thumb { background:#0003; border-radius:4px; }
+.small { font-size:13px; color: #555; }
+.preset { display:inline-block; width:28px; height:28px; border-radius:6px; margin-right:8px; cursor:pointer; border:2px solid #fff2; }
+.flex { display:flex; align-items:center; gap:12px; }
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+    <div class="login-box">
+        <h2 data-i18n="login_title">Autentificare</h2>
+        <input type="password" id="loginPass" placeholder="Parolă">
+        <button id="loginBtn" onclick="login()" data-i18n="login_button">Intră</button>
+        <div class="error" id="loginError"></div>
+        <div class="small" style="margin-top:8px;">Demo: poți reseta parola din setări.</div>
+    </div>
+</div>
+
+<div class="wrapper" id="app" style="display:none;">
+    <div class="sidebar">
+        <h3 data-i18n="settings_title">Setări</h3>
+        <div class="nav-item active" data-target="general"><i class="fa-solid fa-gear"></i><span data-i18n="nav_general">General</span></div>
+        <div class="nav-item" data-target="appearance"><i class="fa-solid fa-brush"></i><span data-i18n="nav_appearance">Aspect</span></div>
+        <div class="nav-item" data-target="account"><i class="fa-solid fa-user"></i><span data-i18n="nav_account">Cont</span></div>
+        <div class="nav-item" data-target="security"><i class="fa-solid fa-shield"></i><span data-i18n="nav_security">Securitate</span></div>
+        <div class="nav-item" data-target="privacy"><i class="fa-solid fa-user-shield"></i><span data-i18n="nav_privacy">Confidențialitate</span></div>
+        <div class="nav-item" data-target="backup"><i class="fa-solid fa-database"></i><span data-i18n="nav_backup">Backup</span></div>
+        <div class="nav-item" data-target="versiune"><i class="fa-solid fa-id-card"></i><span data-i18n="nav_versiune">Versiune</span></div>
+        <div class="nav-item" data-target="views"><i class="fa-solid fa-eye"></i><span data-i18n="nav_views">Vizualizări</span></div>
+        <div class="nav-item" data-target="feedback"><i class="fa-solid fa-comment"></i><span data-i18n="nav_feedback">Feedback</span></div>
+    </div>
+
+    <div style="flex:1; display:flex; flex-direction:column;">
+        <div class="header">
+            <input type="text" id="searchInput" placeholder="Caută setări..." data-i18n-placeholder="search_placeholder">
+            <div style="display:flex; align-items:center; gap:15px;">
+                <i class="fa-solid fa-bell" title="Notifications"></i>
+                <i class="fa-solid fa-circle-user" style="font-size:26px;"></i>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section active" id="general">
+                <h2 data-i18n="general_title">General</h2>
+                <div class="setting-row">
+                    <span data-i18n="label_language">Limbă</span>
+                    <select id="language">
+                        <option value="ro">Română</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <span data-i18n="label_notifications">Notificări</span>
+                    <label class="toggle"><input type="checkbox" id="notifications"><span class="slider"></span></label>
+                </div>
+                <div class="setting-row">
+                    <span data-i18n="label_volume">Volum aplicație</span>
+                    <input type="range" id="volume" min="0" max="100">
+                </div>
+                <div class="card">
+                    <h3 data-i18n="general_quick">Setări rapide</h3>
+                    <div class="setting-row"><span data-i18n="enable_backup">Backup automat</span><label class="toggle"><input type="checkbox" id="autoBackup"><span class="slider"></span></label></div>
+                    <div class="setting-row"><span data-i18n="enable_analytics">Analize anonime</span><label class="toggle"><input type="checkbox" id="analytics"><span class="slider"></span></label></div>
+                </div>
+            </div>
+
+            <div class="section" id="appearance">
+                <h2 data-i18n="appearance_title">Aspect</h2>
+                <div class="card">
+                    <div class="setting-row">
+                        <span data-i18n="label_darkmode">Dark mode</span>
+                        <label class="toggle"><input type="checkbox" id="darkMode"><span class="slider"></span></label>
+                    </div>
+                    <div class="setting-row">
+                        <span data-i18n="label_accent">Culoare accent</span>
+                        <div class="flex">
+                            <input type="color" id="accentColor" value="#4c84ff">
+                            <div class="preset" id="p1" style="background:#4c84ff" title="#4c84ff"></div>
+                            <div class="preset" id="p2" style="background:#ff7a59" title="#ff7a59"></div>
+                            <div class="preset" id="p3" style="background:#7cffb2" title="#7cffb2"></div>
+                            <div class="preset" id="p4" style="background:#8e6cff" title="#8e6cff"></div>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <span data-i18n="label_font">Font</span>
+                        <select id="fontFamily"><option value="Inter,system-ui">Inter</option><option value="Arial,Helvetica">Arial</option><option value="'Courier New',monospace">Mono</option></select>
+                    </div>
+                    <div class="setting-row"><span data-i18n="label_fontsize">Dimensiune font</span><input type="range" id="fontSize" min="12" max="20"></div>
+                    <div class="setting-row"><span data-i18n="label_blur">Blur fundal</span><input type="range" id="blurRange" min="0" max="40"></div>
+                    <div class="setting-row"><span data-i18n="label_transparency">Transparență carduri</span><input type="range" id="cardOpacity" min="30" max="100"></div>
+                    <div class="setting-row"><span data-i18n="label_animations">Animații UI</span><label class="toggle"><input type="checkbox" id="uiAnimations"><span class="slider"></span></label></div>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="appearance_extra">Setări avansate Aspect</h3>
+                    <div class="setting-row"><span data-i18n="label_radius">Rază colțuri</span><input type="range" id="radius" min="4" max="32"></div>
+                    <div class="setting-row"><span data-i18n="label_layout">Layout compact</span><label class="toggle"><input type="checkbox" id="compactLayout"><span class="slider"></span></label></div>
+                    <div class="setting-row"><span data-i18n="label_border">Border subtle</span><label class="toggle"><input type="checkbox" id="subtleBorder"><span class="slider"></span></label></div>
+                </div>
+            </div>
+
+            <div class="section" id="account">
+                <h2 data-i18n="account_title">Cont</h2>
+                <div class="card">
+                    <div class="setting-row"><span data-i18n="label_username">Username</span><input type="text" id="username"></div>
+                    <div class="setting-row"><span data-i18n="label_email">Email</span><input type="email" id="email"></div>
+                    <div class="setting-row"><span data-i18n="label_bio">Biografie</span><input type="text" id="description" placeholder="Ce vrei să afișezi..."></div>
+                    <div class="setting-row"><span data-i18n="label_linked">Conturi conectate</span><button class="btn" id="manageLinks">Gestionează</button></div>
+                </div>
+                <div class="card">
+                    <h3 data-i18n="security_sessions">Sesiuni active</h3>
+                    <div id="sessionsList"><p class="small" data-i18n="no_sessions">Nicio sesiune activă în afară de aceasta.</p></div>
+                </div>
+            </div>
+
+            <div class="section" id="security">
+                <h2 data-i18n="security_title">Securitate</h2>
+                <div class="card">
+                    <div class="setting-row"><span data-i18n="change_password">Schimbă parola</span></div>
+                    <div class="setting-row"><input type="password" id="oldPass" placeholder="Parola veche"></div>
+                    <div class="setting-row"><input type="password" id="newPass" placeholder="Parola nouă"></div>
+                    <div class="setting-row"><input type="password" id="confirmPass" placeholder="Confirmă parola"></div>
+                    <button class="btn" onclick="changePassword()" data-i18n="apply">Aplică</button>
+                </div>
+                <div class="setting-row">
+                    <span data-i18n="label_2fa">2FA</span>
+                    <label class="toggle"><input type="checkbox" id="twofa"><span class="slider"></span></label>
+                </div>
+                <button class="btn danger" onclick="logout()" data-i18n="logout">Logout</button>
+            </div>
+
+            <div class="section" id="privacy">
+                <h2 data-i18n="privacy_title">Confidențialitate</h2>
+                <div class="card">
+                    <div class="setting-row"><span data-i18n="label_tracking">Track activity</span><label class="toggle"><input type="checkbox" id="tracking"><span class="slider"></span></label></div>
+                    <div class="setting-row"><span data-i18n="label_location">Share location</span><label class="toggle"><input type="checkbox" id="location"><span class="slider"></span></label></div>
+                    <div class="setting-row"><span data-i18n="label_adpref">Anunțuri personalizate</span><label class="toggle"><input type="checkbox" id="adsPersonalization"><span class="slider"></span></label></div>
+                    <div class="setting-row"><span data-i18n="label_datareq">Cere datele mele</span><button class="btn" id="requestData">Cere acum</button></div>
+                </div>
+            </div>
+
+            <div class="section" id="backup">
+                <h2 data-i18n="backup_title">Backup & Restore</h2>
+                <button class="btn" onclick="exportSettings()" data-i18n="export">Export Settings</button>
+                <input type="file" id="importFile" style="margin-top:10px">
+                <button class="btn" onclick="importSettings()" data-i18n="import">Import Settings</button>
+                <button class="btn danger" onclick="resetSettings()" data-i18n="reset">Reset Settings</button>
+            </div>
+
+            <div class="section" id="versiune">
+                <h2 data-i18n="Versiune">Profil</h2>
+                <div class="setting-row"><span data-i18n="label_fullname"Versiune:1.00</span>
+                <div class="setting-row"><span data-i18n="label_avatar">Creator:d4</span><input type="text" id="avatarUrl"></div>
+                <img id="avatarPreview" src="" style="width:90px;height:90px;border-radius:50%;margin-top:10px;">
+                <div class="card">
+                    <h3 data-i18n="dev_debug">Developer & Debug</h3>
+                    <div class="setting-row"><span data-i18n="label_dev">Developer Mode</span><label class="toggle"><input type="checkbox" id="devMode"><span class="slider"></span></label></div>
+                    <div class="setting-row"><span data-i18n="label_debug">Debug Mode</span><label class="toggle"><input type="checkbox" id="debugMode"><span class="slider"></span></label></div>
+                </div>
+            </div>
+
+            <div class="section" id="views">
+                <h2 data-i18n="views_title">Vizualizări</h2>
+                <button class="btn" onclick="addView()" data-i18n="add_view">Adaugă vizualizare</button>
+                <table>
+                    <thead><tr><th>#</th><th data-i18n="col_date">Data</th><th data-i18n="col_action">Acțiune</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="section" id="feedback">
+                <h2 data-i18n="feedback_title">Feedback</h2>
+                <textarea id="feedbackText" style="width:100%; height:100px;"></textarea>
+                <button class="btn" onclick="sendFeedback()" data-i18n="send_feedback">Trimite feedback</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+// --- Password storage and defaults ---
+const DEFAULT_PASSWORD = "d4riusfn67";
+function getStoredPassword(){ return localStorage.getItem('APP_PASSWORD') || DEFAULT_PASSWORD; }
+function setStoredPassword(p){ localStorage.setItem('APP_PASSWORD', p); }
+
+// --- Login ---
+function login(){
+    const pass = document.getElementById('loginPass').value;
+    const stored = getStoredPassword();
+    if(pass === stored){
+        document.getElementById('loginScreen').style.display='none';
+        document.getElementById('app').style.display='flex';
+        loadSettings(); applyTheme(); applyLanguage(); renderViews();
+    } else {
+        document.getElementById('loginError').innerText = translations[currentLang].login_wrong || 'Parolă greșită!';
+    }
+}
+
+function logout(){ location.reload(); }
+
+// --- Navigation ---
+document.querySelectorAll('.nav-item').forEach(item=>{
+    item.onclick=()=>{
+        document.querySelector('.nav-item.active').classList.remove('active');
+        item.classList.add('active');
+        document.querySelector('.section.active').classList.remove('active');
+        document.getElementById(item.dataset.target).classList.add('active');
+    };
+});
+
+// --- Search ---
+searchInput.addEventListener('input', e=>{
+    const term = e.target.value.toLowerCase();
+    document.querySelectorAll('.section').forEach(sec=>{
+        let visible=false;
+        sec.querySelectorAll('div, input, select, button, textarea, h2, span, p').forEach(el=>{
+            const txt = (el.innerText||el.placeholder||'').toLowerCase();
+            if(txt.includes(term)) visible=true;
+        });
+        if(visible) sec.style.display='block'; else if(!sec.classList.contains('active')) sec.style.display='none';
+    });
+});
+
+// --- Settings storage ---
+function saveSettings(){
+    const data={
+        language: language.value,
+        notifications: notifications.checked,
+        volume: volume.value,
+        darkMode: darkMode.checked,
+        accentColor: accentColor.value,
+        username: username.value,
+        email: email.value,
+        description: description?.value,
+        twofa: twofa.checked,
+        tracking: tracking.checked,
+        location: location.checked,
+        fullname: fullname.value,
+        avatarUrl: avatarUrl.value,
+        devMode: devMode.checked,
+        debugMode: debugMode.checked,
+        autoBackup: autoBackup.checked,
+        analytics: analytics.checked,
+        fontFamily: fontFamily.value,
+        fontSize: fontSize.value,
+        blurRange: blurRange.value,
+        cardOpacity: cardOpacity.value,
+        radius: radius.value,
+        compactLayout: compactLayout.checked,
+        subtleBorder: subtleBorder.checked,
+        uiAnimations: uiAnimations.checked
+    };
+    localStorage.setItem('FULL_SETTINGS', JSON.stringify(data));
+}
+
+function loadSettings(){
+    const saved=JSON.parse(localStorage.getItem('FULL_SETTINGS')||'{}');
+    for(const k in saved){
+        let el=document.getElementById(k);
+        if(!el) continue;
+        if(el.type==='checkbox') el.checked=saved[k];
+        else el.value=saved[k];
+    }
+    avatarPreview.src = avatarUrl.value||'';
+    applyTheme();
+    applyLanguage();
+}
+
+// --- Theme / Appearance ---
+function applyTheme(){
+    document.body.classList.toggle('dark', darkMode.checked);
+    document.documentElement.style.setProperty('--accent', accentColor.value);
+    document.documentElement.style.setProperty('--blur', blurRange.value+'px');
+    document.documentElement.style.setProperty('--radius', radius.value+'px');
+    document.body.style.fontFamily = fontFamily.value;
+    document.body.style.fontSize = (fontSize.value||14)+'px';
+    // card opacity
+    document.querySelectorAll('.card, .sidebar, .header, .login-box').forEach(el=>{
+        el.style.background = adjustCardBackground(cardOpacity.value||65);
+        if(subtleBorder && subtleBorder.checked) el.style.border = '1px solid rgba(0,0,0,0.06)'; else el.style.border='none';
+    });
+}
+function adjustCardBackground(op){
+    const v = Math.max(30, Math.min(100, op));
+    const alpha = (v/100).toFixed(2);
+    if(document.body.classList.contains('dark')) return `rgba(22,24,29,${alpha})`;
+    return `rgba(255,255,255,${alpha})`;
+}
+
+// presets
+[p1,p2,p3,p4].forEach(p=>{ if(p) p.onclick=()=>{ accentColor.value=p.title; accentColor.dispatchEvent(new Event('input')); }; });
+
+// wire inputs to save
+document.querySelectorAll('input, select, textarea').forEach(i=>{
+    i.addEventListener('input', ()=>{ saveSettings(); applyTheme(); applyLanguage(); });
+});
+avatarUrl.oninput = ()=> avatarPreview.src = avatarUrl.value;
+
+// --- Translations ---
+let currentLang = 'ro';
+const translations = {
+    ro: {
+        login_title:'Autentificare', login_button:'Intră', login_wrong:'Parolă greșită!',
+        settings_title:'Setări', nav_general:'General', nav_appearance:'Aspect', nav_account:'Cont', nav_security:'Securitate', nav_privacy:'Confidențialitate', nav_backup:'Backup', nav_versiune:'Profil', nav_views:'Vizualizări', nav_feedback:'Feedback',
+        search_placeholder:'Caută setări...',
+        general_title:'General', label_language:'Limbă', label_notifications:'Notificări', label_volume:'Volum aplicație', general_quick:'Setări rapide', enable_backup:'Backup automat', enable_analytics:'Analize anonime',
+        appearance_title:'Aspect', label_darkmode:'Dark mode', label_accent:'Culoare accent', label_font:'Font', label_fontsize:'Dimensiune font', label_blur:'Blur fundal', label_transparency:'Transparență carduri', label_animations:'Animații UI', appearance_extra:'Setări avansate Aspect', label_radius:'Rază colțuri', label_layout:'Layout compact', label_border:'Border subtle',
+        account_title:'Cont', label_username:'Username', label_email:'Email', label_bio:'Biografie', label_linked:'Conturi conectate', security_sessions:'Sesiuni active', no_sessions:'Nicio sesiune activă în afară de aceasta.',
+        security_title:'Securitate', change_password:'Schimbă parola', apply:'Aplică', label_2fa:'2FA', logout:'Logout',
+        privacy_title:'Confidențialitate', label_tracking:'Track activity', label_location:'Share location', label_adpref:'Anunțuri personalizate', label_datareq:'Cere datele mele',
+        backup_title:'Backup & Restore', export:'Export Settings', import:'Import Settings', reset:'Reset Settings',
+        versiune_title:'Profil', label_fullname:'Nume complet', label_avatar:'Avatar URL', dev_debug:'Developer & Debug', label_dev:'Developer Mode', label_debug:'Debug Mode',
+        views_title:'Vizualizări', add_view:'Adaugă vizualizare', col_date:'Data', col_action:'Acțiune',
+        feedback_title:'Feedback', send_feedback:'Trimite feedback'
+    },
+    en: {
+        login_title:'Sign in', login_button:'Sign in', login_wrong:'Wrong password!',
+        settings_title:'Settings', nav_general:'General', nav_appearance:'Appearance', nav_account:'Account', nav_security:'Security', nav_privacy:'Privacy', nav_backup:'Backup', nav_versiune:'Versiune', nav_views:'Views', nav_feedback:'Feedback',
+        search_placeholder:'Search settings...',
+        general_title:'General', label_language:'Language', label_notifications:'Notifications', label_volume:'App volume', general_quick:'Quick settings', enable_backup:'Auto backup', enable_analytics:'Anonymous analytics',
+        appearance_title:'Appearance', label_darkmode:'Dark mode', label_accent:'Accent color', label_font:'Font', label_fontsize:'Font size', label_blur:'Background blur', label_transparency:'Card transparency', label_animations:'UI animations', appearance_extra:'Advanced appearance', label_radius:'Corner radius', label_layout:'Compact layout', label_border:'Subtle border',
+        account_title:'Account', label_username:'Username', label_email:'Email', label_bio:'Bio', label_linked:'Linked accounts', security_sessions:'Active sessions', no_sessions:'No active sessions besides this one.',
+        security_title:'Security', change_password:'Change password', apply:'Apply', label_2fa:'2FA', logout:'Logout',
+        privacy_title:'Privacy', label_tracking:'Track activity', label_location:'Share location', label_adpref:'Ad personalization', label_datareq:'Request my data',
+        backup_title:'Backup & Restore', export:'Export Settings', import:'Import Settings', reset:'Reset Settings',
+        versiune_title:'Versiune', label_fullname:'Full name', label_avatar:'Avatar URL', dev_debug:'Developer & Debug', label_dev:'Developer Mode', label_debug:'Debug Mode',
+        views_title:'Views', add_view:'Add view', col_date:'Date', col_action:'Action',
+        feedback_title:'Feedback', send_feedback:'Send feedback'
+    },
+    fr: {
+        login_title:'Connexion', login_button:'Se connecter', login_wrong:'Mot de passe incorrect!',
+        settings_title:'Paramètres', nav_general:'Général', nav_appearance:'Apparence', nav_account:'Compte', nav_security:'Sécurité', nav_privacy:'Confidentialité', nav_backup:'Sauvegarde', nav_versiune:'Profil', nav_views:'Vues', nav_feedback:'Retour',
+        search_placeholder:'Rechercher...',
+        general_title:'Général', label_language:'Langue', label_notifications:'Notifications', label_volume:'Volume appli', general_quick:'Paramètres rapides', enable_backup:'Sauvegarde auto', enable_analytics:'Analytique anonyme',
+        appearance_title:'Apparence', label_darkmode:'Mode sombre', label_accent:'Couleur accent', label_font:'Police', label_fontsize:'Taille police', label_blur:'Flou fond', label_transparency:'Transparence cartes', label_animations:'Animations UI', appearance_extra:'Paramètres avancés', label_radius:'Rayon coins', label_layout:'Layout compact', label_border:'Bord subtil',
+        account_title:'Compte', label_username:'Pseudo', label_email:'Email', label_bio:'Bio', label_linked:'Comptes liés', security_sessions:'Sessions actives', no_sessions:'Aucune session active à part celle-ci.',
+        security_title:'Sécurité', change_password:'Changer le mot de passe', apply:'Appliquer', label_2fa:'2FA', logout:'Se déconnecter',
+        privacy_title:'Confidentialité', label_tracking:'Suivre activ.', label_location:'Partager loca.', label_adpref:'Publicité personnalisée', label_datareq:'Demander mes données',
+        backup_title:'Sauvegarde & Restauration', export:'Exporter', import:'Importer', reset:'Réinitialiser',
+        versiune_title:'Profil', label_fullname:'Nom complet', label_avatar:'URL Avatar', dev_debug:'Dev & Debug', label_dev:'Mode développeur', label_debug:'Mode debug',
+        views_title:'Vues', add_view:'Ajouter vue', col_date:'Date', col_action:'Action',
+        feedback_title:'Retour', send_feedback:'Envoyer'
+    }
+};
+
+function applyLanguage(){
+    currentLang = language.value || currentLang;
+    // translate elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(translations[currentLang] && translations[currentLang][key]) el.innerText = translations[currentLang][key];
+    });
+    // translate placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+        const key = el.getAttribute('data-i18n-placeholder');
+        if(translations[currentLang] && translations[currentLang][key]) el.placeholder = translations[currentLang][key];
+    });
+    // translate title tag
+    if(translations[currentLang] && translations[currentLang]['settings_title']) document.getElementById('site-title').innerText = translations[currentLang]['settings_title'];
+}
+
+// ensure entire DOM text nodes are translated where possible (simple approach)
+function translateAllTextNodes(){
+    // Not attempting full automatic NLP translation — using explicit data-i18n attributes above covers UI strings.
+}
+
+// --- Change password that persists ---
+function changePassword(){
+    const oldP = oldPass.value;
+    const newP = newPass.value;
+    const confirmP = confirmPass.value;
+    const stored = getStoredPassword();
+    if(oldP !== stored){ alert(translations[currentLang].login_wrong); return; }
+    if(!newP){ alert('Introdu o parolă nouă.'); return; }
+    if(newP !== confirmP){ alert('Parolele nu corespund!'); return; }
+    setStoredPassword(newP);
+    alert('Parolă schimbată cu succes!');
+    // clear inputs
+    oldPass.value=''; newPass.value=''; confirmPass.value='';
+    saveSettings();
+}
+
+// --- Backup functionality ---
+function exportSettings(){
+    const obj = { settings: localStorage.getItem('FULL_SETTINGS')||'{}', password: localStorage.getItem('APP_PASSWORD')||DEFAULT_PASSWORD, views: localStorage.getItem('VIEWS')||'[]' };
+    const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='settings_export.json'; a.click();
+}
+function importSettings(){
+    const file=importFile.files[0]; if(!file) return alert('Alege un fișier.');
+    const reader=new FileReader();
+    reader.onload=e=>{
+        try{
+            const obj = JSON.parse(e.target.result);
+            if(obj.settings) localStorage.setItem('FULL_SETTINGS', obj.settings);
+            if(obj.password) localStorage.setItem('APP_PASSWORD', obj.password);
+            if(obj.views) localStorage.setItem('VIEWS', obj.views);
+            loadSettings(); applyTheme(); renderViews();
+            alert('Import realizat cu succes.');
+        }catch(err){ alert('Fișier invalid.'); }
+    };
+    reader.readAsText(file);
+}
+function resetSettings(){ if(confirm('Sigur vrei reset?')){ localStorage.clear(); location.reload(); } }
+
+// --- Views ---
+let views = JSON.parse(localStorage.getItem('VIEWS')||'[]');
+function addView(){ views.push(new Date().toISOString()); localStorage.setItem('VIEWS', JSON.stringify(views)); renderViews(); }
+function deleteView(i){ views.splice(i,1); localStorage.setItem('VIEWS', JSON.stringify(views)); renderViews(); }
+function renderViews(){
+    const body=document.querySelector('#views tbody'); body.innerHTML='';
+    if(!views.length){ body.innerHTML=`<tr><td colspan="3" style="text-align:center;" class="small">Nicio vizualizare</td></tr>`; return; }
+    views.forEach((v,i)=>{ body.innerHTML+=`<tr><td>${i+1}</td><td>${new Date(v).toLocaleString()}</td><td><button class="btn danger" onclick="deleteView(${i})">Șterge</button></td></tr>`; });
+}
+renderViews();
+
+// --- Feedback ---
+function sendFeedback(){ const t=feedbackText.value.trim(); if(!t) return alert('Scrie ceva!'); alert('Feedback trimis!'); feedbackText.value=''; }
+
+// --- Initialize UI values & listeners ---
+function init(){
+    // defaults for appearance controls
+    if(!document.getElementById('fontSize').value) fontSize.value = 14;
+    if(!document.getElementById('cardOpacity').value) cardOpacity.value = 65;
+    if(!document.getElementById('radius').value) radius.value = 16;
+    if(!document.getElementById('blurRange').value) blurRange.value = 20;
+
+    // apply preset click handlers already wired above
+    document.getElementById('manageLinks').onclick = ()=> alert('Aici poți gestiona conturile conectate.');
+    document.getElementById('requestData').onclick = ()=> alert('Am primit solicitarea. Vei primi un e-mail (demo).');
+
+    // on first load, ensure password is stored in localStorage so change persists
+    if(!localStorage.getItem('APP_PASSWORD')) localStorage.setItem('APP_PASSWORD', DEFAULT_PASSWORD);
+
+    // quick save on unload
+    window.addEventListener('beforeunload', saveSettings);
+}
+init();
+
+// apply translations when language changes
+language.addEventListener('change', ()=>{ applyLanguage(); saveSettings(); });
+
+// ensure save on toggles or buttons
+[...document.querySelectorAll('.toggle input')].forEach(t=>t.addEventListener('change', ()=>{ saveSettings(); applyTheme(); }));
+
+// on load, set visible sections according to search (none)
+window.addEventListener('load', ()=>{ loadSettings(); applyTheme(); applyLanguage(); renderViews(); });
+
+</script>
+
+</body>
+</html>

@@ -4,12 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acasa-d4riusfn</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" type="image/x-icon" href="img/logo nou d4riusfn.jpg">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .views {
+      margin-top: 14px;
+      font-size: 14px;
+      opacity: 0.75;
+    }
+  </style>
 </head>
+
 <body>
 
+  <!-- MENU -->
   <div class="menu-btn" id="menuBtn">☰</div>
   <div class="side-menu" id="sideMenu">
     <div class="close-menu" id="closeMenu">✖</div>
@@ -18,15 +32,24 @@
     <a href="blog.html">Blog & News</a>
   </div>
 
+  <!-- HEADER -->
   <header style="text-align:left; padding:1cm 0 0 1cm;">
     <img src="./img/logo nou d4riusfn.jpg" alt="Logo d4riusfn" 
-         style="height:65px; width:65px; object-fit:cover; box-shadow:0 0 10px rgba(0,0,0,0.3);">
+      style="height:65px; width:65px; object-fit:cover; box-shadow:0 0 10px rgba(0,0,0,0.3);">
   </header>
 
+  <!-- MAIN -->
   <main>
-     <h1 style="font-size:42px; font-weight:600;">d4riusfn</h1>
+    <h1 style="font-size:42px; font-weight:600;">d4riusfn</h1>
     <p class="subtitle">FORTNITE PRO PLAYER</p>
-    <p class="bio">Professional Fortnite player focused on performance, consistency, and competitive growth.</p>
+
+    <!-- BIO TYPING -->
+    <p class="bio" id="typingText"></p>
+
+    <!-- VIEWS -->
+    <p class="views">
+      👁️ Views: <span id="viewsCount">0</span>
+    </p>
 
     <div class="profile-circle">
       <span>d4</span>
@@ -35,26 +58,29 @@
 
     <div class="username">d4riusfn</div>
 
+    <!-- SOCIALS -->
     <section id="socials">
       <h2>FOLLOW ME</h2>
       <div class="socials">
+
         <a class="social" href="https://www.tiktok.com/@d4riusfn" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok">
+          <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png">
           <span>TIKTOK</span>
           <p>Follow for clips</p>
         </a>
 
         <a class="social" href="https://www.youtube.com/@d4rius-fn" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+          <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
           <span>YOUTUBE</span>
           <p>Subscribe for gameplay</p>
         </a>
 
         <a class="social" href="https://discord.com/users/d4riusfn." target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord">
+          <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png">
           <span>DISCORD</span>
           <p>Join community</p>
         </a>
+
       </div>
     </section>
   </main>
@@ -81,6 +107,7 @@
       gap: 40px;
     "
   >
+    <!-- STÂNGA -->
     <div
       style="
         display: flex;
@@ -106,6 +133,7 @@
       </div>
     </div>
 
+    <!-- MIJLOC -->
     <div>
       <h3 style="margin-bottom: 12px;">LINKS</h3>
       <a
@@ -125,6 +153,7 @@
       >
     </div>
 
+    <!-- DREAPTA -->
     <div>
       <h3 style="margin-bottom: 12px;">SOCIAL MEDIA</h3>
       <div style="display: flex; gap: 14px;">
@@ -167,16 +196,39 @@
     "
   >
     © 2025 d4riusfn — All Rights Reserved
-  </p>
-</footer>
+    </p>
+  </footer>
 
+  <!-- SCRIPTS -->
   <script>
+    /* MENU */
     const menuBtn = document.getElementById("menuBtn");
     const sideMenu = document.getElementById("sideMenu");
     const closeMenu = document.getElementById("closeMenu");
 
     menuBtn.onclick = () => sideMenu.classList.add("active");
     closeMenu.onclick = () => sideMenu.classList.remove("active");
+
+    /* PAGE VIEWS */
+    let views = localStorage.getItem("page_views");
+    views = views ? parseInt(views) + 1 : 1;
+    localStorage.setItem("page_views", views);
+    document.getElementById("viewsCount").innerText = views;
+
+    /* TYPING EFFECT */
+    const text = "Professional Fortnite player focused on performance, consistency, and competitive growth.";
+    const typingEl = document.getElementById("typingText");
+    let i = 0;
+
+    function typeEffect() {
+      if (i < text.length) {
+        typingEl.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeEffect, 35);
+      }
+    }
+
+    typeEffect();
   </script>
 
 </body>
